@@ -1,5 +1,5 @@
 import React from 'react';
-import { Control, List, Task } from '../components'
+import { Control, List } from '../components'
 
 import './App.css';
 
@@ -17,9 +17,12 @@ class App extends React.Component {
   }
 
   render() {
+    const { tasks } = this.state
+
     return (
       <div className="App">
         <Control addTask={this.addTask} />
+        <List tasks={tasks} />
       </div>
     );
   }
