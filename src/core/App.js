@@ -8,10 +8,18 @@ class App extends React.Component {
     tasks: [{ id: 1, content: 'Привет', isCompleted: false }]
   }
 
+  addTask = (data) => {
+    const { tasks } = this.state
+
+    const newTask = { id: +new Date(), content: data, isCompleted: false }
+
+    this.setState({ tasks: [...tasks, newTask] }, () => console.log(tasks))
+  }
+
   render() {
     return (
       <div className="App">
-        <Control />
+        <Control addTask={this.addTask} />
       </div>
     );
   }
