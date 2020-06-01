@@ -3,7 +3,8 @@ import './Control.css';
 
 class Control extends React.Component {
   state = {
-    inputValue: ''
+    inputValue: '',
+    selectedValue: 'all'
   }
 
   handleChange = e => {
@@ -24,13 +25,24 @@ class Control extends React.Component {
     }
   }
 
-  render() {
-    const { inputValue } = this.state
+  handleFilterChange = e => {
+    const { setFilter } = this.props
 
+    this.setState({ selectedValue: e.target.value }, () => setFilter(this.state.selectedValue))
+  }
+
+  render() {
+    const { inputValue, selectedValue } = this.state
+    
     return (
       <>
         <input value={inputValue} onChange={this.handleChange} onKeyDown={this.handleKeyDown} />
         <button onClick={this.handleClick}>Добавить</button>
+        <select onChange={this.handleFilterChange} value={selectedValue} className="filter">
+          <option value="all">Все задачи</option>
+          <option value="unsuccess">Только невыполненные</option>
+          <option value="success">Только выполненные</option>
+        </select>
       </>
     )
   }

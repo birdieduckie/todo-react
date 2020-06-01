@@ -5,7 +5,10 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    tasks: []
+    tasks: [],
+    filteredTasks: [],
+    filterType: 'all',
+    isFiltered: false
   }
 
   componentDidMount() {
@@ -43,13 +46,35 @@ class App extends React.Component {
     this.setState({ tasks: updatedTasks }, () => localStorage.setItem('tasks', JSON.stringify(this.state.tasks)))
   }
 
-  render() {
+  setFilter = (filterType) => {
     const { tasks } = this.state
+
+    this.setState({ filterType }, () => {
+      if (this.state.filterType === 'success') {
+        return this.setState({ filteredTasks: tasks.filter((task) => task.isCompleted), isFiltered: true })
+      }
+
+      if (this.state.filterType === 'unsuccess') {
+        return this.setState({ filteredTasks: tasks.filter((task) => !task.isCompleted), isFiltered: true })
+      }
+
+      return this.setState({ filteredTasks: [], isFiltered: false })
+    })
+  }
+
+  render() {
+    const { tasks, filteredTasks, isFiltered } = this.state
 
     return (
       <div className="App">
-        <Control addTask={this.addTask} />
-        <List deleteTask={this.deleteTask} completeTask={this.completeTask} tasks={tasks} />
+        <Control setFilter={this.setFilter} addTask={this.addTask} />
+        <List
+          isFiltered={isFiltered}
+          deleteTask={this.deleteTask}
+          completeTask={this.completeTask}
+          tasks={tasks}
+          filteredTasks={filteredTasks}
+        />
       </div>
     );
   }
