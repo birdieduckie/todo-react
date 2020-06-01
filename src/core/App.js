@@ -5,15 +5,26 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    tasks: [{ id: 1, content: 'Привет', isCompleted: false }]
+    tasks: []
   }
+
+  componentDidMount() {
+    const savedTasks = localStorage.getItem('tasks')
+
+    if (savedTasks) {
+      this.setState({ tasks: JSON.parse(savedTasks) })
+    }
+  }
+
 
   addTask = (data) => {
     const { tasks } = this.state
+    
+    if (data) {
+      const newTask = { id: +new Date(), content: data, isCompleted: false }
 
-    const newTask = { id: +new Date(), content: data, isCompleted: false }
-
-    this.setState({ tasks: [...tasks, newTask] }, () => console.log(this.state.tasks))
+      this.setState({ tasks: [...tasks, newTask] }, () => localStorage.setItem('tasks', JSON.stringify(this.state.tasks)))
+    }
   }
 
   deleteTask = (id) => {
@@ -21,7 +32,7 @@ class App extends React.Component {
 
     const updatedTasks = tasks.filter((task) => task.id !== id)
 
-    this.setState({ tasks: updatedTasks })
+    this.setState({ tasks: updatedTasks }, () => localStorage.setItem('tasks', JSON.stringify(this.state.tasks)))
   }
 
   completeTask = (id, isCompleted) => {
@@ -29,7 +40,7 @@ class App extends React.Component {
 
     const updatedTasks = tasks.map((task) => task.id === id ? ({ ...task, isCompleted }) : task)
 
-    this.setState({ tasks: updatedTasks }, () => console.log(this.state.tasks))
+    this.setState({ tasks: updatedTasks }, () => localStorage.setItem('tasks', JSON.stringify(this.state.tasks)))
   }
 
   render() {
