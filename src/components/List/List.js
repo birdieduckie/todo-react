@@ -4,12 +4,21 @@ import './List.css';
 
 class List extends React.Component {
   render() {
-    const { tasks } = this.props
+    const { tasks, deleteTask, completeTask } = this.props
 
     return (
-    <>
-    {tasks.map(task => <Task id={task.id} content={task.content} isCompleted={task.isCompleted} />)}
-    </>
+      <>
+        {tasks.map(task => 
+          <Task 
+            key={task.id} 
+            id={task.id} 
+            content={task.content} 
+            isCompleted={task.isCompleted} 
+            deleteTask={deleteTask} 
+            completeTask={completeTask}
+          />
+        )}
+      </>
     )
   }
 }

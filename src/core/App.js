@@ -13,7 +13,23 @@ class App extends React.Component {
 
     const newTask = { id: +new Date(), content: data, isCompleted: false }
 
-    this.setState({ tasks: [...tasks, newTask] }, () => console.log(tasks))
+    this.setState({ tasks: [...tasks, newTask] }, () => console.log(this.state.tasks))
+  }
+
+  deleteTask = (id) => {
+    const { tasks } = this.state
+
+    const updatedTasks = tasks.filter((task) => task.id !== id)
+
+    this.setState({ tasks: updatedTasks })
+  }
+
+  completeTask = (id, isCompleted) => {
+    const { tasks } = this.state
+
+    const updatedTasks = tasks.map((task) => task.id === id ? ({ ...task, isCompleted }) : task)
+
+    this.setState({ tasks: updatedTasks }, () => console.log(this.state.tasks))
   }
 
   render() {
@@ -22,7 +38,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Control addTask={this.addTask} />
-        <List tasks={tasks} />
+        <List deleteTask={this.deleteTask} completeTask={this.completeTask} tasks={tasks} />
       </div>
     );
   }
