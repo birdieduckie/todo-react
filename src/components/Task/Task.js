@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { Button } from 'react-bootstrap';
+
 import './Task.css';
 
 class Task extends React.Component {
@@ -24,15 +27,15 @@ class Task extends React.Component {
     const { id, content } = this.props
     
     return (
-      <>
+      <div className='task'>
+        <input type='checkbox' checked={isCheckboxChecked} onChange={this.handleChangeStatus} />
         <div>
           {content}
         </div>
-        <button onClick={this.handleDelete}>X</button>
-        <input type='checkbox' checked={isCheckboxChecked} onChange={this.handleChangeStatus} />
-      </>
+        <Button variant='danger' onClick={this.handleDelete}>X</Button>
+      </div>
     )
   }
 }
 
-export { Task }; 
+export { Task };

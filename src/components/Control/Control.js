@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { Button } from 'react-bootstrap';
+
 import './Control.css';
 
 class Control extends React.Component {
@@ -35,15 +38,15 @@ class Control extends React.Component {
     const { inputValue, selectedValue } = this.state
     
     return (
-      <>
+      <div className='control'>
         <input value={inputValue} onChange={this.handleChange} onKeyDown={this.handleKeyDown} />
-        <button onClick={this.handleClick}>Добавить</button>
+        <Button variant='success' onClick={this.handleClick}>+</Button>
         <select onChange={this.handleFilterChange} value={selectedValue} className="filter">
           <option value="all">Все задачи</option>
           <option value="unsuccess">Только невыполненные</option>
           <option value="success">Только выполненные</option>
         </select>
-      </>
+      </div>
     )
   }
 }
